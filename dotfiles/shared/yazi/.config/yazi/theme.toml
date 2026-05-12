@@ -1,0 +1,10 @@
+[flavor]
+#dark = "catppuccin-mocha"
+#dark = "everforest-medium"
+#dark = "everforest-medium"
+dark = "kanagawa"
+light = "kanagawa"
+
+[indicator]
+padding = { open = "█", close = "█" }
+

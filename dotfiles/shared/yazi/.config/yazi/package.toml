@@ -1,0 +1,19 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "25918dc"
+hash = "6fa6a05a81c98dd000fbca3cca6e9682"
+
+[[flavor.deps]]
+use = "dangooddd/kanagawa"
+rev = "04985d1"
+hash = "c69a63981e254a3a06a11c2bf0e6af1d"
+
+[[flavor.deps]]
+use = "Chromium-3-Oxide/everforest-medium"
+rev = "0158f0f"
+hash = "a7c36abf0b13289aceb1c20a17c6a63e"
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:catppuccin-mocha"
+rev = "4c57537"
+hash = "8eabb4e88096f10905a6df62cfaadbf4"
