@@ -12,8 +12,10 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = ','
 
+require('core.globals').config()
 require('core.options').config()
 require('core.mappings').config()
+require('core.autocommands').config()
 
 -- plugins
 
@@ -22,3 +24,6 @@ require("lazy").setup({ import = "plugins" }, {
     notify = false,
   }
 })
+
+-- loading internal plugins
+vim.cmd.packadd("cfilter")

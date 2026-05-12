@@ -1,5 +1,65 @@
 return {
     {
+      "romus204/tree-sitter-manager.nvim",
+      dependencies = {}, -- tree-sitter CLI must be installed system-wide
+      config = function()
+        require("tree-sitter-manager").setup({
+          -- Default Options
+          -- ensure_installed = {}, -- list of parsers to install at the start of a neovim session
+          -- border = nil, -- border style for the window (e.g. "rounded", "single"), if nil, use the default border style defined by 'vim.o.winborder'. See :h 'winborder' for more info.
+          -- auto_install = false, -- if enabled, install missing parsers when editing a new file
+          -- highlight = true, -- treesitter highlighting is enabled by default
+          -- languages = {}, -- override or add new parser sources
+          -- parser_dir = vim.fn.stdpath("data") .. "/site/parser",
+          -- query_dir = vim.fn.stdpath("data") .. "/site/queries",
+        })
+      end
+    },
+    {
+      "sindrets/diffview.nvim",
+      enabled = true,
+      config = function()
+        vim.keymap.set("n", "<space>do", ":DiffviewOpen")
+        vim.keymap.set("n", "<space>dc", "<Cmd>DiffviewClose<CR>")
+        vim.keymap.set("n", "<space>df", "<Cmd>DiffviewFileHistory<CR>")
+      end,
+    },
+    {
+      "stevearc/oil.nvim",
+      lazy = false,
+      priority = 1000,
+      opts = {},
+      dependencies = {
+        "nvim-tree/nvim-web-devicons",
+      },
+      config = function()
+        require("oil").setup({
+          columns = { "icon" },
+          keymaps = {
+            ["<C-h>"] = false,
+            ["<C-l>"] = false,
+            ["<C-p>"] = false,
+            ["<C-s>"] = false,
+            ["<BS>"] = function()
+              require("oil").open()
+            end,
+            ["q"] = function()
+              require("oil").close()
+            end,
+          },
+          view_options = {
+            show_hidden = true,
+          },
+          float = {
+            max_width = 100,
+            max_height = 50,
+          },
+        })
+
+        vim.keymap.set("n", "-", '<Cmd>lua require("oil").open()<CR>', { desc = "Open parent directory" })
+      end,
+    },
+    {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
@@ -69,5 +129,70 @@ return {
       { "<leader>g", function() Snacks.lazygit.open() end },
     },
   },
-
+  {
+    "mason-org/mason.nvim",
+    opts = {},
+  },
+  {
+    "L3MON4D3/LuaSnip",
+    config = function()
+      require("luasnip.loaders.from_snipmate").lazy_load()
+      require("luasnip.loaders.from_vscode").lazy_load()
+    end,
+  },
+  "tpope/vim-fugitive",
+  "michaeljsmith/vim-indent-object",
+  {
+    "airblade/vim-gitgutter",
+    config = function()
+      vim.g.gitgutter_grep = "rg"
+    end
+  },
+  {
+    "stevearc/conform.nvim",
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        -- Customize or remove this keymap to your liking
+        "<Space>f",
+        function()
+          require("conform").format({ async = true })
+        end,
+        mode = "",
+        desc = "Format buffer with conform.nvim",
+      },
+    },
+    -- This will provide type hinting with LuaLS
+    -- @module "conform"
+    -- @type conform.setupOpts
+    opts = {
+      -- Define your formatters
+      formatters_by_ft = {
+        xml = { "xmllint" },
+        json = { "jq" },
+        javascript = { "prettier", stop_after_first = true },
+        typescript = { "prettier", stop_after_first = true },
+        vue = { "prettier", stop_after_first = true },
+        svelte = { "prettier", stop_after_first = true },
+        lua = { "stylua" },
+        -- python = { "isort", "black" },
+      },
+      -- Set default options
+      default_format_opts = {
+        lsp_format = "fallback",
+      },
+      -- Set up format-on-save
+      -- format_on_save = { timeout_ms = 500 },
+      -- Customize formatters
+      formatters = {
+        shfmt = {
+          prepend_args = { "-i", "2" },
+        },
+      },
+    },
+    init = function()
+      -- If you want the formatexpr, here is the place to set it
+      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+    end,
+  },
 }
